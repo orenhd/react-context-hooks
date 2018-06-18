@@ -1,0 +1,32 @@
+@import 'shared/styles/variables';
+
+/* application module rules */
+
+p {
+    font-family: Roboto,sans-serif;
+}
+
+:global(.margined-content) {
+    margin: $content-margin;
+}
+
+:local(.appBarRenderIndicator) { // TODO: modify material-ui theme
+    font-size: 28px !important;
+    margin: 10px;
+}
+
+:local(.appDrawer) * {
+    text-decoration: none;
+}
+
+:local(.navLinkActive) {
+    font-weight: bold !important; // TODO: modify material-ui theme 
+}
+
+:local(.menuItemTitle) {
+    pointer-events: none; 
+    * {
+        font-weight: bold;
+    }
+}
+
