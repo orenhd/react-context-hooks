@@ -1,10 +1,6 @@
 import React, { PureComponent } from "react";
 
-import PropTypes from "prop-types";
-
-import { withClickingExample } from './clickingExample.provider';
-
-import * as dataTypes from './clickingExample.dataTypes';
+import { withClickingExample, ClickingExampleModuleType } from './clickingExample.provider';
 
 import { ClickCountTypesEnum } from '../../shared/enums';
 
@@ -40,6 +36,8 @@ class ClickingExample extends PureComponent {
     }
 }
 
-/* TODO: ClickingExample.propTypes */
+ClickingExample.propTypes = {
+    clickingExample: ClickingExampleModuleType
+}
 
 export default withClickingExample(ClickingExample);

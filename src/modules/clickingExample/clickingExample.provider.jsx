@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import PropTypes from "prop-types";
+
+import * as dataTypes from './clickingExample.dataTypes';
+
 const ClickingExampleContext = React.createContext(); // the context itself will remain 'private'
 
 export default class ClickingExampleProvider extends Component {
@@ -41,6 +45,16 @@ export default class ClickingExampleProvider extends Component {
         </ClickingExampleContext.Provider>
     }
 }
+
+export const ClickingExampleModuleType = PropTypes.shape({
+    /* State */
+    userName: PropTypes.string,
+    clickingData: dataTypes.ClickingData,
+    /* Actions */
+    setUserName: PropTypes.func.isRequired,
+    updateClickingData: PropTypes.func.isRequired,
+    /* Selectors */
+})
 
 /* this is the HOC that will allow us to 'connect' to the provider */
 

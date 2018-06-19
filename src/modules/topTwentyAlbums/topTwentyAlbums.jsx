@@ -1,11 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import PropTypes from "prop-types";
-
-import { withTopTwentyAlbums } from './topTwentyAlbums.provider';
-
-import * as dataTypes from './topTwentyAlbums.dataTypes';
-import * as viewTypes from './topTwentyAlbums.viewTypes';
+import { withTopTwentyAlbums, TopTwentyAlbumsModuleType } from './topTwentyAlbums.provider';
 
 import GenreSelectionBar from './components/genreSelectionBar';
 import AlbumsList from './components/albumsList';
@@ -20,10 +15,7 @@ class TopTwentyAlbums extends PureComponent {
     /* Class Methods */
 
     render() {
-        const { genres, loadAlbumEntriesByGenreId, getCurrentGenre, getAlbumEntriesList } = this.props.topTwentyAlbums;
-
-        const currentGenre = getCurrentGenre(); // selector
-        const albumEntriesList = getAlbumEntriesList(); // selector
+        const { genres, loadAlbumEntriesByGenreId, currentGenre, albumEntriesList} = this.props.topTwentyAlbums;
 
         return <div className="top-twenty-albums">
             <GenreSelectionBar 
@@ -38,6 +30,8 @@ class TopTwentyAlbums extends PureComponent {
     }
 }
 
-/* TODO: TopTwentyAlbums.propTypes */
+TopTwentyAlbums.propTypes = {
+    topTwentyAlbums: TopTwentyAlbumsModuleType
+}
 
 export default withTopTwentyAlbums(TopTwentyAlbums);

@@ -7,7 +7,7 @@ import { NavLink, Route, Redirect } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { $t } from '../i18n/i18n.service';
 
-import { withClickingExample } from '../modules/clickingExample/clickingExample.provider';
+import { withClickingExample, ClickingExampleModuleType } from '../modules/clickingExample/clickingExample.provider';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -74,6 +74,10 @@ class Application extends Component {
             )} />
         </div>;
     }
+}
+
+Application.propTypes = {
+    clickingExample: ClickingExampleModuleType
 }
 
 export default withRouter(withClickingExample(Application));

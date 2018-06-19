@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 
+import PropTypes from "prop-types";
+
+import * as dataTypes from './topTwentyAlbums.dataTypes';
+import * as viewTypes from './topTwentyAlbums.viewTypes';
+
 import * as ITunesService from './services/iTunes.service';
 
 import * as utils from './topTwentyAlbums.utils';
@@ -67,8 +72,8 @@ export default class TopTwentyAlbumsProvider extends Component {
             loadGenres: this.loadGenres,
             loadAlbumEntriesByGenreId: this.loadAlbumEntriesByGenreId,
             /* Selectors */
-            getCurrentGenre: this.getCurrentGenre,
-            getAlbumEntriesList: this.getAlbumEntriesList, 
+            currentGenre: this.getCurrentGenre(),
+            albumEntriesList: this.getAlbumEntriesList(), 
         }
 
         return <TopTwentyAlbumsContext.Provider value={providerValue}>
@@ -76,6 +81,20 @@ export default class TopTwentyAlbumsProvider extends Component {
         </TopTwentyAlbumsContext.Provider>
     }
 }
+
+export const TopTwentyAlbumsModuleType = PropTypes.shape({
+    /* State */
+    genres: PropTypes.arrayOf(dataTypes.ITunesGenre).isRequired,
+    albumEntries: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currentGenreId: PropTypes.number,
+    /* Actions */
+    setCurrentGenreId: PropTypes.func.isRequired,
+    loadGenres: PropTypes.func.isRequired,
+    loadAlbumEntriesByGenreId: PropTypes.func.isRequired,
+    /* Selectors */
+    currentGenre: dataTypes.ITunesGenre,
+    albumEntriesList: PropTypes.arrayOf(viewTypes.AlbumEntryListItem), 
+})
 
 /* this is the HOC that will allow us to 'connect' to the provider */
 
