@@ -40,4 +40,5 @@ ClickingExample.propTypes = {
     clickingExample: ClickingExampleModuleType
 }
 
+// example for using connection method II - directly through a dedicated HOC
 export default withClickingExample(ClickingExample);

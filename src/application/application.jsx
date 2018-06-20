@@ -7,11 +7,15 @@ import { NavLink, Route, Redirect } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { $t } from '../i18n/i18n.service';
 
-import { withClickingExample, ClickingExampleModuleType } from '../modules/clickingExample/clickingExample.provider';
+import { AppModulesEnum } from '../shared/enums';
+
+import { connectAppModules } from './application.provider';
+import { ClickingExampleModuleType } from '../modules/clickingExample/clickingExample.provider';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import Chip from 'material-ui/Chip';
 import FontIcon from 'material-ui/FontIcon';
 
 import styles from './application.css';
@@ -19,6 +23,7 @@ import styles from './application.css';
 /* module components */
 import ClickingExample from "../modules/clickingExample/clickingExample";
 import TopTwentyAlbums from "../modules/topTwentyAlbums/topTwentyAlbums";
+
 
 class Application extends Component {
     constructor(props) {
@@ -33,12 +38,13 @@ class Application extends Component {
     handleClose = () => this.setState({ open: false });
 
     render() {
-        const { userName } = this.props.clickingExample;
+        const { userName } = this.props.clickEx;
+        const { currentGenre } = this.props.topTwenty;
 
         return <div className="application">
             <AppBar
                 title={userName ? $t.formatMessage({ id: 'general.greeting' }, { userName }) : ''}
-                iconClassNameRight="muidocs-icon-navigation-expand-more"
+                iconElementRight={currentGenre ? <Chip>{currentGenre.title}</Chip> : null}
                 onLeftIconButtonClick={this.handleToggle}
             />
             <Drawer
@@ -80,4 +86,10 @@ Application.propTypes = {
     clickingExample: ClickingExampleModuleType
 }
 
-export default withRouter(withClickingExample(Application));
+const mapAppModulesToProps = {
+    clickEx: AppModulesEnum.clickingExample,
+    topTwenty: AppModulesEnum.topTwentyAlbums,
+}
+
+// example for using connection method I - connectAppModules
+export default withRouter(connectAppModules(mapAppModulesToProps)(Application));

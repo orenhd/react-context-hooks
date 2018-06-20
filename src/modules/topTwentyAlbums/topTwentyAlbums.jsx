@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 
-import { withTopTwentyAlbums, TopTwentyAlbumsModuleType } from './topTwentyAlbums.provider';
+import { AppModulesEnum } from '../../shared/enums';
+
+import { connectAppModules } from '../../application/application.provider';
+import { TopTwentyAlbumsModuleType } from './topTwentyAlbums.provider';
 
 import GenreSelectionBar from './components/genreSelectionBar';
 import AlbumsList from './components/albumsList';
@@ -34,4 +37,9 @@ TopTwentyAlbums.propTypes = {
     topTwentyAlbums: TopTwentyAlbumsModuleType
 }
 
-export default withTopTwentyAlbums(TopTwentyAlbums);
+const mapAppModulesToProps = {
+    topTwentyAlbums: AppModulesEnum.topTwentyAlbums,
+}
+
+// example for using connection method I - connectAppModules
+export default connectAppModules(mapAppModulesToProps)(TopTwentyAlbums);

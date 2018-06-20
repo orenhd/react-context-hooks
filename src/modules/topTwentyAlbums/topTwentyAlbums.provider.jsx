@@ -96,7 +96,12 @@ export const TopTwentyAlbumsModuleType = PropTypes.shape({
     albumEntriesList: PropTypes.arrayOf(viewTypes.AlbumEntryListItem), 
 })
 
-/* this is the HOC that will allow us to 'connect' to the provider */
+/* Connection Method I - map the module through ApplicationProvider connectAppModules function */
+
+// expose the Consumer, to be used by connectAppModules function
+export const TopTwentyAlbumsConsumer = TopTwentyAlbumsContext.Consumer;
+
+/* Connection Method II - directly through an HOC, to a default 'topTwentyAlbums' prop */
 
 export const withTopTwentyAlbums = (WrappedComponent) => {
     return (props) => {

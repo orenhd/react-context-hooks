@@ -56,7 +56,12 @@ export const ClickingExampleModuleType = PropTypes.shape({
     /* Selectors */
 })
 
-/* this is the HOC that will allow us to 'connect' to the provider */
+/* Connection Method I - map the module through ApplicationProvider connectAppModules function */
+
+// expose the Consumer, to be used by connectAppModules function
+export const ClickingExampleConsumer = ClickingExampleContext.Consumer;
+
+/* Connection Method II - directly through an HOC, to a default 'clickingExample' prop */
 
 export const withClickingExample = (WrappedComponent) => {
     return (props) => {
