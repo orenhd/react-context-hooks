@@ -11,6 +11,7 @@ import { AppModulesEnum } from '../shared/enums';
 
 import { connectAppModules } from './application.provider';
 import { ClickingExampleModuleType } from '../modules/clickingExample/clickingExample.provider';
+import { TopTwentyAlbumsModuleType } from '../modules/topTwentyAlbums/topTwentyAlbums.provider';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -83,7 +84,8 @@ class Application extends Component {
 }
 
 Application.propTypes = {
-    clickingExample: ClickingExampleModuleType
+    clickEx: ClickingExampleModuleType,
+    topTwenty: TopTwentyAlbumsModuleType
 }
 
 const mapAppModulesToProps = {

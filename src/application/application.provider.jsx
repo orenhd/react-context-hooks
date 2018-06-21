@@ -27,7 +27,7 @@ const ConsumersDictionary = {
 
 /**
  * connectAppModules
- * @param modulesMapping - a map of modules identifiers according to AppModulesEnum, to prop string keys
+ * @param modulesMapping - mapping of modules identifiers from AppModulesEnum, to prop string keys
  * @returns an HOC wrapping a component with the selected modules Consumers
  **/
 export const connectAppModules = (origModulesMapping) => {
