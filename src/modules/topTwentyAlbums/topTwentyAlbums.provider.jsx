@@ -8,21 +8,22 @@ import * as viewTypes from './topTwentyAlbums.viewTypes';
 import * as ITunesService from './services/iTunes.service';
 
 import * as utils from './topTwentyAlbums.utils';
+import * as sharedUtils from '../../shared/utils';
 
 const TopTwentyAlbumsContext = React.createContext(); // the context itself will remain 'private'
 
 export default class TopTwentyAlbumsProvider extends Component {
 
     state = {
-        genres: [],
+        genresMap: {},
         albumEntries: [],
         currentGenreId: null,
     }
 
     /* Action Methods */
 
-    setGenres = (genres) => {
-        this.setState({ genres });
+    setGenres = (genresMap) => {
+        this.setState({ genresMap });
     }
 
     setAlbumEntries = (albumEntries) => {
@@ -36,7 +37,8 @@ export default class TopTwentyAlbumsProvider extends Component {
     loadGenres = () => {
         if (!this.state.currentGenreId)
             ITunesService.getGenres().then((genres) => {
-                this.setGenres(genres);
+                const genresMap = sharedUtils.getMapFromArrayByPropertyKey(genres, 'id');
+                this.setGenres(genresMap);
                 if (genres && genres[0] && !this.state.currentGenreId) {
                     //loading genre ids is always followed by loading the selected genre albums list
                     this.loadAlbumEntriesByGenreId(genres[0].id);
@@ -53,12 +55,18 @@ export default class TopTwentyAlbumsProvider extends Component {
 
     /* Selector Methods */
 
+    getSortedGenres = () => {
+        const { genresMap } = this.state;
+        if (!genresMap) return [];
+    
+        return sharedUtils.getSortedArrayFromMap(genresMap, 'title');
+    }
+    
     getCurrentGenre = () => {
-        const { genres, currentGenreId } = this.state;
-        if (!currentGenreId || !genres || !genres.length) return;
+        const { genresMap, currentGenreId } = this.state;
+        if (!genresMap || !currentGenreId) return null;
 
-        const matchingGenres = genres.filter((genre) => genre.id === currentGenreId);
-        return matchingGenres[0];
+        return genresMap[currentGenreId];
     }
 
     getAlbumEntriesList = () => {
@@ -72,6 +80,7 @@ export default class TopTwentyAlbumsProvider extends Component {
             loadGenres: this.loadGenres,
             loadAlbumEntriesByGenreId: this.loadAlbumEntriesByGenreId,
             /* Selectors */
+            sortedGenres: this.getSortedGenres(),
             currentGenre: this.getCurrentGenre(),
             albumEntriesList: this.getAlbumEntriesList(), 
         }
@@ -84,7 +93,6 @@ export default class TopTwentyAlbumsProvider extends Component {
 
 export const TopTwentyAlbumsModuleType = PropTypes.shape({
     /* State */
-    genres: PropTypes.arrayOf(dataTypes.ITunesGenre).isRequired,
     albumEntries: PropTypes.arrayOf(PropTypes.object).isRequired,
     currentGenreId: PropTypes.number,
     /* Actions */
@@ -92,6 +100,7 @@ export const TopTwentyAlbumsModuleType = PropTypes.shape({
     loadGenres: PropTypes.func.isRequired,
     loadAlbumEntriesByGenreId: PropTypes.func.isRequired,
     /* Selectors */
+    sortedGenres: PropTypes.arrayOf(dataTypes.ITunesGenre).isRequired,
     currentGenre: dataTypes.ITunesGenre,
     albumEntriesList: PropTypes.arrayOf(viewTypes.AlbumEntryListItem), 
 })

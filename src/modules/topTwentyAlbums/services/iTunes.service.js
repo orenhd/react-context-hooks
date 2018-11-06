@@ -1,14 +1,10 @@
+import iTunesGenreIdsCacheMock from './__mocks__/iTunesGenreIdsCache.mock.json';
+
 const ITUNES_GET_TOP_ALBUMS = 'https://itunes.apple.com/us/rss/topalbums/limit=20/genre=14/json';
 
 // iTunes rss api doesn't really have a genre ids endpoint 
 // - the following cache object is used as a mockup
-const iTunesGenreIdsCache = [
-    { title: 'Pop', id: 14 },
-    { title: 'Rock', id: 21 },
-    { title: 'Alternative', id: 20 },
-    { title: 'Dance', id: 17 },
-    { title: 'Electronic', id: 7 }
-];
+const iTunesGenreIdsCache = iTunesGenreIdsCacheMock;
 
 const iTunesTopTwentyAlbumsByGenreIdCache = {};
 
