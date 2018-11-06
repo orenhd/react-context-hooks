@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`clickingPanel should render correctly 1`] = `
+<div
+  className="clicking-panel"
+>
+  <div
+    className="undefined margined-content"
+  >
+    <FloatingActionButton
+      disabled={false}
+      mini={true}
+      onClick={[Function]}
+      secondary={false}
+      zDepth={2}
+    >
+      <FontIcon
+        className="material-icons"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        home
+      </FontIcon>
+    </FloatingActionButton>
+  </div>
+</div>
+`;
