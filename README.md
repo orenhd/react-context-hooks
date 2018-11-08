@@ -1,5 +1,3 @@
-# react-context
+# react-context-hooks
 
-A [Create React App](https://github.com/facebookincubator/create-react-app) demonstrating a simple state management implementation, using React [Context API](https://reactjs.org/docs/context.html).
-
-The featured functionality is similar to the one presented on [react-typescript--redux](https://github.com/orenhd/react-typescript--redux), supported by basic unit testing, using [Jest](https://jestjs.io/) and [Enzyme](https://www.npmjs.com/package/enzyme).
+A fork of [react-context](https://github.com/orenhd/react-context) replacing all class components with functional components, using [Hooks](https://reactjs.org/docs/hooks-reference.html).

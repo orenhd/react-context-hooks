@@ -1,44 +1,37 @@
-import React, { PureComponent } from "react";
+import React, { useContext } from "react";
 
-import { withClickingExample, ClickingExampleModuleType } from './clickingExample.provider';
+import { ClickingExampleContext } from './clickingExample.provider';
 
 import { ClickCountTypesEnum } from '../../shared/enums';
 
 import UserNameBar from './components/userNameBar';
 import ClickingPanel from './components/clickingPanel';
 
-class ClickingExample extends PureComponent {
+const ClickingExample = (props) => {
 
-    /* Class Methods */
+    const clickingExample = useContext(ClickingExampleContext); // an example for requestingthe context directly
 
-    homeButtonClicked = () => {
-        this.props.clickingExample.updateClickingData(ClickCountTypesEnum.homeButtonClick);
+    const { userName, clickingData, setUserName, updateClickingData } = clickingExample;
+
+    const homeButtonClicked = () => {
+        updateClickingData(ClickCountTypesEnum.homeButtonClick);
     }
 
-    homeButtonClickedOutside = () => {
-        this.props.clickingExample.updateClickingData(ClickCountTypesEnum.homeButtonClickOutside);
+    const homeButtonClickedOutside = () => {
+        updateClickingData(ClickCountTypesEnum.homeButtonClickOutside);
     }
 
-    render() {
-        const { userName, clickingData, setUserName } = this.props.clickingExample;
-
-        return <div className="clicking-example margined-content">
-            <UserNameBar 
-                userName={userName} 
-                userNameChangedHandler={setUserName}
-            />
-            <ClickingPanel
-                clickingData={clickingData}
-                homeButtonClickedHandler={this.homeButtonClicked}
-                homeButtonClickedOutsideHandler={this.homeButtonClickedOutside}
-            />
-        </div>
-    }
+    return <div className="clicking-example margined-content">
+        <UserNameBar 
+            userName={userName} 
+            userNameChangedHandler={setUserName}
+        />
+        <ClickingPanel
+            clickingData={clickingData}
+            homeButtonClickedHandler={homeButtonClicked}
+            homeButtonClickedOutsideHandler={homeButtonClickedOutside}
+        />
+    </div>
 }
 
-ClickingExample.propTypes = {
-    clickingExample: ClickingExampleModuleType
-}
-
-// example for using connection method II - directly through a dedicated HOC
-export default withClickingExample(ClickingExample);
+export default ClickingExample;

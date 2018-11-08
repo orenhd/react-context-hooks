@@ -1,45 +1,40 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 
 import { AppModulesEnum } from '../../shared/enums';
 
-import { connectAppModules } from '../../application/application.provider';
-import { TopTwentyAlbumsModuleType } from './topTwentyAlbums.provider';
+import { useAppModules } from '../../application/application.provider';
 
 import GenreSelectionBar from './components/genreSelectionBar';
 import AlbumsList from './components/albumsList';
 
-class TopTwentyAlbums extends PureComponent {
+let genresLoaded = false;
 
-    /* Lifecycle Methods */
-    componentDidMount = () => {
-        this.props.topTwentyAlbums.loadGenres();
-    }
+const TopTwentyAlbums = (props) => {
 
-    /* Class Methods */
+    const [topTwentyAlbums] = useAppModules([AppModulesEnum.topTwentyAlbums]);
 
-    render() {
-        const { loadAlbumEntriesByGenreId, currentGenre, sortedGenres, albumEntriesList} = this.props.topTwentyAlbums;
+    const { loadAlbumEntriesByGenreId, currentGenre, sortedGenres, albumEntriesList} = topTwentyAlbums;
 
-        return <div className="top-twenty-albums">
-            <GenreSelectionBar 
-                genres={sortedGenres} 
-                currentGenre={currentGenre}
-                genreSelectedHandler={loadAlbumEntriesByGenreId}
-            />
-            <AlbumsList
-                albumEntriesList={albumEntriesList}
-            />
-        </div>
-    }
+    useEffect(() => {
+        if (!genresLoaded) {
+            genresLoaded = true;
+            topTwentyAlbums.loadGenres();
+        }
+        return () => {
+            genresLoaded = false;
+        }
+    }); // conditionally fire only on first run 
+
+    return <div className="top-twenty-albums">
+        <GenreSelectionBar 
+            genres={sortedGenres} 
+            currentGenre={currentGenre}
+            genreSelectedHandler={loadAlbumEntriesByGenreId}
+        />
+        <AlbumsList
+            albumEntriesList={albumEntriesList}
+        />
+    </div>
 }
 
-TopTwentyAlbums.propTypes = {
-    topTwentyAlbums: TopTwentyAlbumsModuleType
-}
-
-const mapAppModulesToProps = {
-    topTwentyAlbums: AppModulesEnum.topTwentyAlbums,
-}
-
-// example for using connection method I - connectAppModules
-export default connectAppModules(mapAppModulesToProps)(TopTwentyAlbums);
+export default TopTwentyAlbums;

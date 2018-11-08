@@ -9,7 +9,7 @@ import * as i18nService from "./i18n/i18n.service";
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import ApplicationProvider from './application/application.provider';
+import { ApplicationProvider } from './application/application.provider';
 
 import Application from './application/application';
 

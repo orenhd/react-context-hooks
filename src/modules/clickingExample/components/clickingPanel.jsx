@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { useEffect } from "react";
 
 import PropTypes from "prop-types";
 
@@ -15,36 +15,33 @@ import { ClickCountTypesEnum } from '../../../shared/enums';
 
 import { getDocumentClickHandler } from '../../../shared/addons/clickOutside.addon';
 
-class ClickingPanel extends PureComponent {
+const ClickingPanel = (props) => {
 
-    /* Lifecycle Methods */
+    let boundDocumentClickHandler, _homeButtonWrapperRef;
+    
+    useEffect(() => {
+        boundDocumentClickHandler = getDocumentClickHandler(this, _homeButtonWrapperRef, props.homeButtonClickedOutsideHandler);
+        document.addEventListener('click', boundDocumentClickHandler);
+        return () => {
+            document.removeEventListener('click', boundDocumentClickHandler);
+        }
+    });
 
-    componentDidMount() {
-        this.boundDocumentClickHandler = getDocumentClickHandler(this, this._homeButtonWrapperRef, this.props.homeButtonClickedOutsideHandler);
-        document.addEventListener('click', this.boundDocumentClickHandler);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('click', this.boundDocumentClickHandler);
-    }
-
-    render() {
-        return <div className="clicking-panel">
-            <div className={`${styles.homeButtonWrapper} margined-content`} ref={(homeButtonWrapper) => {this._homeButtonWrapperRef = homeButtonWrapper}}>
-                <FloatingActionButton mini={true} onClick={this.props.homeButtonClickedHandler}>
-                    <FontIcon className="material-icons">home</FontIcon>
-                </FloatingActionButton>
-            </div>
-            {this.props.clickingData[ClickCountTypesEnum.homeButtonClick] && <p className={styles.clickingDataText}>
-                {$t.formatMessage({id: 'clickingExample.homeButtonClicked'}, 
-                    {count: this.props.clickingData[ClickCountTypesEnum.homeButtonClick]})}
-            </p>}
-            {this.props.clickingData[ClickCountTypesEnum.homeButtonClickOutside] && <p className={styles.clickingDataText}>
-                {$t.formatMessage({id: 'clickingExample.homeButtonClickedOutside'}, 
-                    {count: this.props.clickingData[ClickCountTypesEnum.homeButtonClickOutside]})}
-            </p>}
+    return <div className="clicking-panel">
+        <div className={`${styles.homeButtonWrapper} margined-content`} ref={(homeButtonWrapper) => {_homeButtonWrapperRef = homeButtonWrapper}}>
+            <FloatingActionButton mini={true} onClick={props.homeButtonClickedHandler}>
+                <FontIcon className="material-icons">home</FontIcon>
+            </FloatingActionButton>
         </div>
-    }
+        {props.clickingData[ClickCountTypesEnum.homeButtonClick] && <p className={styles.clickingDataText}>
+            {$t.formatMessage({id: 'clickingExample.homeButtonClicked'}, 
+                {count: props.clickingData[ClickCountTypesEnum.homeButtonClick]})}
+        </p>}
+        {props.clickingData[ClickCountTypesEnum.homeButtonClickOutside] && <p className={styles.clickingDataText}>
+            {$t.formatMessage({id: 'clickingExample.homeButtonClickedOutside'}, 
+                {count: props.clickingData[ClickCountTypesEnum.homeButtonClickOutside]})}
+        </p>}
+    </div>
 }
 
 ClickingPanel.propTypes = {

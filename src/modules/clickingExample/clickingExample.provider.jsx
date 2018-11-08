@@ -1,49 +1,45 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import PropTypes from "prop-types";
 
 import * as dataTypes from './clickingExample.dataTypes';
 
-const ClickingExampleContext = React.createContext(); // the context itself will remain 'private'
+export const ClickingExampleContext = React.createContext();
 
-export default class ClickingExampleProvider extends Component {
+export const ClickingExampleProvider = (props) => {
 
-    state = {
+    const [state, setState] = useState({
         userName: 'World',
         clickingData: {},
-    }
+    });
 
     /* Action Methods */
 
-    setUserName = (userName) => {
-        this.setState({ userName })
+    const setUserName = (userName) => {
+        setState({ userName: userName });
     }
 
-    updateClickingData = (clickCountType) => {
-        const { clickingData } = this.state;
+    const updateClickingData = (clickCountType) => {
+        const { clickingData } = state;
         const updateClickingData = { ...clickingData };
 
         const currentTypeCount = updateClickingData[clickCountType] || 0;
 
         updateClickingData[clickCountType] = currentTypeCount + 1;
 
-        this.setState({ clickingData: updateClickingData });
+        setState({ clickingData: updateClickingData });
     }
 
-    /* Selector Methods */
-
-    render() {
-        const providerValue = { ...this.state, 
-            /* Actions */
-            setUserName: this.setUserName,
-            updateClickingData: this.updateClickingData,
-            /* Selectors */
-        }
-
-        return <ClickingExampleContext.Provider value={providerValue}>
-            {this.props.children}
-        </ClickingExampleContext.Provider>
+    const providerValue = { ...state, 
+        /* Actions */
+        setUserName,
+        updateClickingData,
+        /* Selectors */
     }
+
+    return <ClickingExampleContext.Provider value={providerValue}>
+        {props.children}
+    </ClickingExampleContext.Provider>
 }
 
 export const ClickingExampleModuleType = PropTypes.shape({
@@ -55,20 +51,3 @@ export const ClickingExampleModuleType = PropTypes.shape({
     updateClickingData: PropTypes.func.isRequired,
     /* Selectors */
 })
-
-/* Connection Method I - map the module through ApplicationProvider connectAppModules function */
-
-// expose the Consumer, to be used by connectAppModules function
-export const ClickingExampleConsumer = ClickingExampleContext.Consumer;
-
-/* Connection Method II - directly through an HOC, to a default 'clickingExample' prop */
-
-export const withClickingExample = (WrappedComponent) => {
-    return (props) => {
-        return <ClickingExampleContext.Consumer>
-            {(clickingExample) =>
-                <WrappedComponent clickingExample={clickingExample} {...props} />
-            }
-        </ClickingExampleContext.Consumer>
-    }
-};
