@@ -31,9 +31,9 @@ const Application = () => {
 
     /* Class Methods */
 
-    const handleToggle = () => setState({ open: !state.open });
-    const handleDrawerRequestChange = (open) => setState({ open })
-    const handleClose = () => setState({ open: false });
+    const handleToggle = () => setState(prevState => { return { ...prevState, open: !state.open } });
+    const handleDrawerRequestChange = (open) => setState(prevState => { return { ...prevState, open } });
+    const handleClose = () => setState(prevState => { return { ...prevState, open: false } });
 
     const { userName } = clickEx;
     const { currentGenre } = topTwenty;

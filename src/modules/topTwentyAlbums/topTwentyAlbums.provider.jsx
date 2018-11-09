@@ -23,15 +23,15 @@ export const TopTwentyAlbumsProvider = (props) => {
     /* Action Methods */
 
     const setGenres = (genresMap) => {
-        setState({ ...state, genresMap });
+        setState(prevState => { return { ...prevState, genresMap } });
     }
 
     const setAlbumEntries = (albumEntries) => {
-        setState({ ...state, albumEntries });
+        setState(prevState => { return { ...prevState, albumEntries } });
     }
 
     const setCurrentGenreId = (currentGenreId) => {
-        setState({ ...state, currentGenreId });
+        setState(prevState => { return { ...prevState, currentGenreId } });
     }
 
     const loadGenres = () => {
