@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { AppModulesEnum } from '../../shared/enums';
 
@@ -11,7 +11,11 @@ const TopTwentyAlbums = (props) => {
 
     const [topTwentyAlbums] = useAppModules([AppModulesEnum.topTwentyAlbums]);
 
-    const { loadAlbumEntriesByGenreId, currentGenre, sortedGenres, albumEntriesList} = topTwentyAlbums;
+    const { loadAlbumEntriesByGenreId, currentGenre, sortedGenres, albumEntriesList } = topTwentyAlbums;
+
+    useEffect(() => {
+        topTwentyAlbums.loadGenres();
+    }, []); // init once
 
     return <div className="top-twenty-albums">
         <GenreSelectionBar 

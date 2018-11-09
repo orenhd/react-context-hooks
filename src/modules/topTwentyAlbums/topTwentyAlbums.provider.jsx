@@ -23,27 +23,26 @@ export const TopTwentyAlbumsProvider = (props) => {
     /* Action Methods */
 
     const setGenres = (genresMap) => {
-        setState({ genresMap });
+        setState({ ...state, genresMap });
     }
 
     const setAlbumEntries = (albumEntries) => {
-        setState({ albumEntries });
+        setState({ ...state, albumEntries });
     }
 
     const setCurrentGenreId = (currentGenreId) => {
-        setState({ currentGenreId });
+        setState({ ...state, currentGenreId });
     }
 
     const loadGenres = () => {
-        if (!state.currentGenreId)
-            ITunesService.getGenres().then((genres) => {
-                const genresMap = sharedUtils.getMapFromArrayByPropertyKey(genres, 'id');
-                setGenres(genresMap);
-                if (genres && genres[0] && !state.currentGenreId) {
-                    //loading genre ids is always followed by loading the selected genre albums list
-                    loadAlbumEntriesByGenreId(genres[0].id);
-                }
-            })
+        ITunesService.getGenres().then((genres) => {
+            const genresMap = sharedUtils.getMapFromArrayByPropertyKey(genres, 'id');
+            setGenres(genresMap);
+            if (genres && genres[0] && !state.currentGenreId) {
+                //loading genre ids is always followed by loading the selected genre albums list
+                loadAlbumEntriesByGenreId(genres[0].id);
+            }
+        })
     }
 
     const loadAlbumEntriesByGenreId = (genreId) => {
@@ -57,31 +56,31 @@ export const TopTwentyAlbumsProvider = (props) => {
 
     const getSortedGenres = () => {
         const { genresMap } = state;
-        if (!genresMap) return [];
     
-        return sharedUtils.getSortedArrayFromMap(genresMap, 'title');
+        return useMemo(() => sharedUtils.getSortedArrayFromMap(genresMap, 'title'), [genresMap]);
     }
     
     const getCurrentGenre = () => {
         const { genresMap, currentGenreId } = state;
-        if (!genresMap || !currentGenreId) return null;
 
         return genresMap[currentGenreId];
     }
 
     const getAlbumEntriesList = () => {
-        return utils.mapToListAlbumEntries(state.albumEntries);
+        const { albumEntries } = state;
+
+        return useMemo(() => utils.mapToListAlbumEntries(albumEntries), [albumEntries]);
     }
 
-    const providerValue = { state, 
+    const providerValue = { ...state, 
         /* Actions */
         setCurrentGenreId: setCurrentGenreId,
         loadGenres: loadGenres,
         loadAlbumEntriesByGenreId: loadAlbumEntriesByGenreId,
         /* Selectors */
-        sortedGenres: useMemo(getSortedGenres),
-        currentGenre: useMemo(getCurrentGenre),
-        albumEntriesList: useMemo(getAlbumEntriesList),
+        sortedGenres: getSortedGenres(),
+        currentGenre: getCurrentGenre(),
+        albumEntriesList: getAlbumEntriesList(),
     }
 
     return <TopTwentyAlbumsContext.Provider value={providerValue}>

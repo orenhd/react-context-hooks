@@ -16,7 +16,7 @@ export const ClickingExampleProvider = (props) => {
     /* Action Methods */
 
     const setUserName = (userName) => {
-        setState({ userName: userName });
+        setState({ ...state, userName });
     }
 
     const updateClickingData = (clickCountType) => {
@@ -27,7 +27,7 @@ export const ClickingExampleProvider = (props) => {
 
         updateClickingData[clickCountType] = currentTypeCount + 1;
 
-        setState({ clickingData: updateClickingData });
+        setState({ ...state, clickingData: updateClickingData });
     }
 
     const providerValue = { ...state, 
