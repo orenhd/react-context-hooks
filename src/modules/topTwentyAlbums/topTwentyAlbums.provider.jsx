@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import PropTypes from "prop-types";
 
@@ -46,8 +46,6 @@ export const TopTwentyAlbumsProvider = (props) => {
             })
     }
 
-    window.loadGenres = loadGenres;
-
     const loadAlbumEntriesByGenreId = (genreId) => {
         setCurrentGenreId(genreId);
         ITunesService.getTopTwentyAlbumsByGenreId(genreId).then((albumEntries) => {
@@ -81,9 +79,9 @@ export const TopTwentyAlbumsProvider = (props) => {
         loadGenres: loadGenres,
         loadAlbumEntriesByGenreId: loadAlbumEntriesByGenreId,
         /* Selectors */
-        sortedGenres: getSortedGenres(),
-        currentGenre: getCurrentGenre(),
-        albumEntriesList: getAlbumEntriesList(), 
+        sortedGenres: useMemo(getSortedGenres),
+        currentGenre: useMemo(getCurrentGenre),
+        albumEntriesList: useMemo(getAlbumEntriesList),
     }
 
     return <TopTwentyAlbumsContext.Provider value={providerValue}>
