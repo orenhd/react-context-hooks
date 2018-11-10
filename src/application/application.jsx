@@ -17,7 +17,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Chip from 'material-ui/Chip';
 import FontIcon from 'material-ui/FontIcon';
 
-import styles from './application.css';
+import styles from './application.scss';
 
 /* module components */
 import ClickingExample from "../modules/clickingExample/clickingExample";

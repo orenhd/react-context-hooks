@@ -7,7 +7,7 @@ import { $t } from '../../../i18n/i18n.service'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import styles from './clickingPanel.css';
+import styles from './clickingPanel.scss';
 
 import * as dataTypes from '../clickingExample.dataTypes';
 
