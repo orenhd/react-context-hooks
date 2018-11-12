@@ -1,5 +1,7 @@
 import iTunesGenreIdsCacheMock from './__mocks__/iTunesGenreIdsCache.mock.json';
 
+export const DEFAULT_GENRE_ID = 14; // pop
+
 const ITUNES_GET_TOP_ALBUMS = 'https://itunes.apple.com/us/rss/topalbums/limit=20/genre=14/json';
 
 // iTunes rss api doesn't really have a genre ids endpoint 

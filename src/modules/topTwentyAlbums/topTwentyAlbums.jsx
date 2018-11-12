@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { withRouter } from 'react-router';
 
 import { AppModulesEnum } from '../../shared/enums';
 
@@ -11,17 +12,26 @@ const TopTwentyAlbums = (props) => {
 
     const [topTwentyAlbums] = useAppModules([AppModulesEnum.topTwentyAlbums]);
 
-    const { loadAlbumEntriesByGenreId, currentGenre, sortedGenres, albumEntriesList } = topTwentyAlbums;
+    const { loadGenres, loadAlbumEntriesByGenreId, currentGenre, sortedGenres, albumEntriesList } = topTwentyAlbums;
 
     useEffect(() => {
-        topTwentyAlbums.loadGenres();
-    }, []); // init once
+        loadGenres();
+    },  []); // init once
+
+    useEffect(() => {
+        const genreId = parseInt(props.match.params.genreId, 10);
+        loadAlbumEntriesByGenreId(genreId);
+    },  [ props.match.params.genreId ]); // on route param change
+
+    const navigateToSelectedGenreId = (genreId) => {
+        props.history.push(`/top-twenty/${genreId}`);
+    }
 
     return <div className="top-twenty-albums">
         <GenreSelectionBar 
             genres={sortedGenres} 
             currentGenre={currentGenre}
-            genreSelectedHandler={loadAlbumEntriesByGenreId}
+            genreSelectedHandler={navigateToSelectedGenreId}
         />
         <AlbumsList
             albumEntriesList={albumEntriesList}
@@ -29,4 +39,4 @@ const TopTwentyAlbums = (props) => {
     </div>
 }
 
-export default TopTwentyAlbums;
+export default withRouter(TopTwentyAlbums);

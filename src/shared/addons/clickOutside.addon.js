@@ -10,12 +10,12 @@ export function getDocumentClickHandler(compClass, elRef, callback) {
     return (event) => {
         if (!elRef) return;
 
-        if (elRef == event.target) return;
+        if (elRef == event.target) return; //eslint-disable-line
 
         let curEl = event.target;
 
         while(curEl.parentElement) {
-            if (curEl.parentElement == elRef) {
+            if (curEl.parentElement == elRef) { //eslint-disable-line
                 return;
             } else {
                 curEl = curEl.parentElement;

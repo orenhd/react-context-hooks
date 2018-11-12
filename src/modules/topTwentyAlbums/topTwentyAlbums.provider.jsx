@@ -38,14 +38,11 @@ export const TopTwentyAlbumsProvider = (props) => {
         ITunesService.getGenres().then((genres) => {
             const genresMap = sharedUtils.getMapFromArrayByPropertyKey(genres, 'id');
             setGenres(genresMap);
-            if (genres && genres[0] && !state.currentGenreId) {
-                //loading genre ids is always followed by loading the selected genre albums list
-                loadAlbumEntriesByGenreId(genres[0].id);
-            }
-        })
+        });
     }
 
-    const loadAlbumEntriesByGenreId = (genreId) => {
+    const loadAlbumEntriesByGenreId = (requestedGenreId) => {
+        const genreId = requestedGenreId || ITunesService.DEFAULT_GENRE_ID;
         setCurrentGenreId(genreId);
         ITunesService.getTopTwentyAlbumsByGenreId(genreId).then((albumEntries) => {
             setAlbumEntries(albumEntries);
