@@ -24,7 +24,9 @@ const TopTwentyAlbums = (props) => {
     },  [ props.match.params.genreId ]); // on route param change
 
     const navigateToSelectedGenreId = (genreId) => {
-        props.history.push(`/top-twenty/${genreId}`);
+        if (!currentGenre || currentGenre.id !== genreId) {
+            props.history.push(`/top-twenty/${genreId}`);
+        }
     }
 
     return <div className="top-twenty-albums">
